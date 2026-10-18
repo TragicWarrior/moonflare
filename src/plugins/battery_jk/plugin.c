@@ -822,6 +822,13 @@ static int jk_get_reading(void *v, char *json, size_t cap)
     if (c->have_settings && c->settings.max_discharge_a > 0.0f)
         js_append(json, cap, &off, "\"max_discharge_a\":%.1f,",
                   (double)c->settings.max_discharge_a);
+    /* The cell over-voltage trip and the voltage charging resumes at, from
+     * the same frame: the Pack view shows them. */
+    if (c->have_settings && c->settings.cell_ovp_v > 0.0f)
+        js_append(json, cap, &off,
+                  "\"cell_ovp_v\":%.3f,\"cell_ovpr_v\":%.3f,",
+                  (double)c->settings.cell_ovp_v,
+                  (double)c->settings.cell_ovpr_v);
     js_append(json, cap, &off, "\"cells\":[");
     for (i = 0; i < (int)r->cell_count; i++)
         js_append(json, cap, &off,
