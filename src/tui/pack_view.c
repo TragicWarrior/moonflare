@@ -1429,13 +1429,20 @@ void mf_pack_update(const char *json)
         if (g_has_switch)
         {
             double iba = jnum(data, "balance_current_a", 0);
+            double ovp = jnum(data, "cell_ovp_v", 0);
+            char trip[40] = "";
             int n = snprintf(line, sizeof(line), "CHG %s  DSG %s  BAL %s",
                              g_chg_on ? "on" : "off",
                              g_dsg_on ? "on" : "off",
                              g_bal_on ? "on" : "off");
             if (n > 0 && iba != 0.0 && (size_t)n < sizeof(line))
                 snprintf(line + n, sizeof(line) - (size_t)n, "  %+.2f A", iba);
-            vk_label_set_text(g_lb_mos, line);
+            /* The BMS's cell over-voltage trip and resume, once its settings
+               frame has been read: at the right end, like the watermarks. */
+            if (ovp > 0.0)
+                snprintf(trip, sizeof(trip), "OVP %.3f V  OVPR %.3f V",
+                         ovp, jnum(data, "cell_ovpr_v", 0));
+            set_lab_lr(g_lb_mos, line, trip);
         }
         else
         {
