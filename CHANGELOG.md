@@ -5,6 +5,17 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.18.0] - 2026-10-18
+
+### Added
+
+- **JK cell OVP and OVPR** in the TUI's Pack view, at the right end of the
+  CHG/DSG/BAL line (`OVP 3.620 V  OVPR 3.520 V`). OVPR is the cell voltage
+  at which the BMS lets charging resume after an over-voltage cutoff.
+- The JK plugin's readings carry `cell_ovp_v` and `cell_ovpr_v` from the
+  BMS's settings frame, so `moonflare-cli` and the MCP tools show them too.
+  An older JK plugin just lacks them, and the line looks as before.
+
 ## [0.17.0] - 2026-10-14
 
 ### Added
